@@ -7,5 +7,8 @@ const categorySchema = mongoose.Schema({
     attrs: [{ key: { type: String }, value:[{type: String}] }]
 })
 
+//카테고리 Ascending 검색
+categorySchema.index({description: 1})
+
 const Category = mongoose.model('category',categorySchema)
 module.exports = Category
