@@ -1,4 +1,3 @@
 {
-    "mongoURI":"mongodb+srv://mk:mkscsi31@cluster0.uwi4cnm.mongodb.net/?retryWrites=true&w=majority",
-    "jwtSecret": "skdmltkfejsrhgiddms"
+    "mongoURI":"mongodb+srv://mk:mkscsi31@cluster0.uwi4cnm.mongodb.net/?retryWrites=true&w=majority"
 }
