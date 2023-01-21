@@ -11,15 +11,22 @@ app.get('/', async(req, res,next) => {
 });
 
 app.use(express.json({
-    extended : false,
+
 }))
 
 app.use("/api", apiRoutes)
 
-// app.use('/api/user', require('./routes/api/user'));
-// app.use('/api/auth', require('./routes/api/auth'));
-// app.use('/api/posts', require('./routes/api/posts'));
-// app.use('/api/profile', require('./routes/api/profile'));
+app.use((error, req, res, next) => {
+    console.error(error)
+    next(error)
+})
+
+app.use((error, req, res, next) => {
+    res.status(500).json({
+        message: error.message,
+        stack: error.stack,
+    })
+})
 
 
 const PORT = process.env.PORT || 5000;
