@@ -1,5 +1,6 @@
-const recordsPerPage = require("../config/pagination");
 const Product = require("../models/ProductModel");
+const recordsPerPage = require("../config/pagination");
+const imageValidate = require("../utils/imageValidate");
 
 const getProducts = async (req, res, next) => {
   try {
@@ -99,8 +100,8 @@ const getBestsellers = async (req, res, next) => {
     ]);
     res.json(products);
   } catch (err) {
-    next(err);
-  }
+    next(err); 
+  } 
 };
 
 const adminGetProducts = async (req, res, next) => {
@@ -125,7 +126,7 @@ const adminDeleteProduct = async (req, res, next) => {
   }
 };
 
-const adminCreteProduct = async (req, res, next) => {
+const adminCreateProduct = async (req, res, next) => {
   try {
     const product = new Product();
     const { name, description, category, count, price, attributesTable } =
@@ -169,13 +170,82 @@ const adminUpdateProduct = async (req, res, next) => {
     } else {
       product.attrs = [];
     }
-      
+
     await product.save();
     res.json({ message: "Product Updated" });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const adminUpload = async (req, res, next) => {
+  try {
+    if (!req.files || !!req.files.images === false) {
+      return res.status(400).send("No files were uploaded.");
+    }
+
+    const validateResult = imageValidate(req.files.images);
+    if (validateResult.error) {
+      return res.status(400).send(validateResult.error);
+    }
+
+    const path = require("path");
+    const { v4: uuidv4 } = require("uuid");
+    const uploadDirectory = path.resolve(
+      __dirname,
+      "../../client",
+      "public",
+      "images",
+      "products"
+    );
+
+    let product = await Product.findById(req.query.productId).orFail();
+
+    let imagesTable = [];
+    if (Array.isArray(req.files.images)) {
+      imagesTable = req.files.images;
+    } else {
+      imagesTable.push(req.files.images);
+    }
+
+    for (let image of imagesTable) {
+      var fileName = uuidv4() + path.extname(image.name);
+      var uploadPath = uploadDirectory + "/" + fileName;
+      product.images.push({ path: "/images/products/" + fileName });
+      image.mv(uploadPath, function (err) {
+        if (err) {
+          return res.status(500).send(err);
+        }
+      });
+    }
+    await product.save();
+    return res.send("Files uploaded!");
+  } catch (err) {
+    next(err);
+  }
+};
+
+const adminDeleteProductImage = async (req, res, next) => {
+  try {
+    const imagePath = decodeURIComponent(req.params.imagePath);
+
+    const path = require("path");
+    const finalPath = path.resolve("../client/public") + imagePath;
+    const fs = require("fs")  
+      fs.unlink(finalPath, (err) => {
+          if (err) {
+            res.status(500).send(err);
+        }
+    })    
+      await Product.findOneAndUpdate(
+          { _id: req.params.productId },
+          { $pull: { images: { path: imagePath } } }).orFail()
+    return res.end()
       
   } catch (err) {
     next(err);
   }
+
 };
 
 module.exports = {
@@ -184,6 +254,8 @@ module.exports = {
   getBestsellers,
   adminGetProducts,
   adminDeleteProduct,
-  adminCreteProduct,
+  adminCreateProduct,
   adminUpdateProduct,
+  adminUpload,
+  adminDeleteProductImage,
 };

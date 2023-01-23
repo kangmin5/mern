@@ -1,18 +1,20 @@
 const express = require('express')
-const connectDB = require('./config/db')
-const apiRoutes = require('./routes/apiRoutes')
-
-
+const fileUpload = require('express-fileupload')
+const cookieParser = require('cookie-parser')
 const app = express()
-connectDB();
+
+app.use(express.json())
+app.use(cookieParser())
+app.use(fileUpload())
+
+const apiRoutes = require('./routes/apiRoutes')
 
 app.get('/', async(req, res,next) => {
     res.json({message: "API running..."})
 });
 
-app.use(express.json({
-
-}))
+const connectDB = require('./config/db')
+connectDB();
 
 app.use("/api", apiRoutes)
 
@@ -27,7 +29,6 @@ app.use((error, req, res, next) => {
         stack: error.stack,
     })
 })
-
 
 const PORT = process.env.PORT || 5000;
 

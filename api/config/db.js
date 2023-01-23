@@ -1,20 +1,18 @@
-const config = require('config')
+require('dotenv').config()
 const mongoose = require('mongoose');
-const db = config.get('mongoURI')
 
 mongoose.set("strictQuery",false)
 
-
 const connectDB = async ()=>{
     try{
-        await mongoose.connect(db,{
+        await mongoose.connect(process.env.MONGO_URI,{
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
         console.log('MongoDB connected successfully')
 
     } catch(err){
-        console.log(err.message);
+        console.log("MongoDB connection FAIL");
         process.exit(1);
     }
 }
