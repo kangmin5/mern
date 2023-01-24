@@ -30,7 +30,7 @@ const productSchema = mongoose.Schema(
     rating: {
       type: Number,
     },
-    reviewNumber: {
+    reviewsNumber: {
       type: Number,
     },
     sales: {

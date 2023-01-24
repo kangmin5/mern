@@ -3,6 +3,7 @@ const fileUpload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
 const app = express()
 
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(fileUpload())
@@ -30,6 +31,6 @@ app.use((error, req, res, next) => {
     })
 })
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT,()=> console.log(`Server starts on port ${PORT}`));
