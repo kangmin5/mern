@@ -1,9 +1,5 @@
-
-
 const AdminChatsPage = () => {
-  return (
-    <div>AdminChatsPage</div>
-  )
-}
+	return <div>AdminChatsPage</div>;
+};
 
-export default AdminChatsPage
+export default AdminChatsPage;

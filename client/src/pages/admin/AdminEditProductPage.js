@@ -1,9 +1,5 @@
-
-
 const AdminEditProductPage = () => {
-  return (
-    <div>AdminEditProductPage</div>
-  )
-}
+	return <div>AdminEditProductPage</div>;
+};
 
-export default AdminEditProductPage
+export default AdminEditProductPage;

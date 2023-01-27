@@ -1,17 +1,17 @@
-html{
-    position:relative;
-    min-height:100%;
-    margin: 0;
-    padding:0;
-    box-sizing: border-box;
+html {
+	position: relative;
+	min-height: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
-body{
-    margin-botton: 170px;
+body {
+	margin-botton: 170px;
 }
 
-footer{
-    position:absolute;
-    bottom:0;
-    width:100%;
-    height:170px;
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 170px;
 }
