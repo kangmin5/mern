@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 
 const HeaderComponent = () => {
 	return (
-		<Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+		<Navbar collapseOnSelect expand='lg' bg='dark' variant='dark' style={{height:"80px"}}>
 			<Container>
 				<LinkContainer to='/'>
 					<Navbar.Brand href='/'>CORESTONE ONLINE SHOP</Navbar.Brand>

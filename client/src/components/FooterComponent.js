@@ -5,7 +5,7 @@ const FooterComponent = () => {
 		<footer>
 			<Container fluid>
 				<Row className='mt-5'>
-					<Col className='bg-dark text-white text-center py-5'>
+					<Col className='bg-dark text-white text-center py-4'>
 						2023 . Copyright &copy;CORESTONE Company
 					</Col>
 				</Row>
