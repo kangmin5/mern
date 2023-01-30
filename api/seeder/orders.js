@@ -2,22 +2,21 @@ const ObjectId = require("mongodb").ObjectId
 
 const orders = Array.from({length: 22}).map((_, idx) => {
     let day = 20
-    let subtotal = 0;
     if(idx < 10) {
         var hour = "0" + idx
-         subtotal = 100
+        var subtotal = 100
     } else if(idx > 16 && idx < 21) {
         var hour = idx
-         subtotal = 100 + 12*idx
+        var subtotal = 100 + 12*idx
     } else {
         var hour = idx
-         subtotal = 100
+        var subtotal = 100
     }
     return {
-        user: ObjectId(),
+        user:ObjectId(),
         orderTotal: {
             itemsCount: 3,
-            cartSubTotal: subtotal
+            cartSubtotal: subtotal
         },
         cartItems: [
             {
