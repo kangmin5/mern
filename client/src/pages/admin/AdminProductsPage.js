@@ -1,6 +1,7 @@
 import { Row, Col, Table, Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import AdminLinksComponent from "../../components/admin/AdminLinksComponent";
+
 const deleteHandler = () => {
     if(window.confirm("Are you sure?")) alert("Product deleted!")
 }

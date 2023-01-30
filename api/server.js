@@ -2,7 +2,6 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const app = express();
-const PORT = process.env.PORT 
 
 app.use(express.json());
 app.use(cookieParser());
@@ -39,7 +38,9 @@ app.use((error, req, res, next) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`);
+const port = process.env.PORT;
+
+app.listen(port, () => {
+  console.log(` App listening on port ${port}`);
 });
 

@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken")
+
 const verifyIsLoggedIn = (req, res, next) => {
+    next()
+    return // 나중에  next() 삭제할 것임
     try {
         const token = req.cookies.access_token
         if(!token) {
@@ -20,6 +23,9 @@ const verifyIsLoggedIn = (req, res, next) => {
 }
 
 const verifyIsAdmin = (req, res, next) => {
+    next()
+    return // 나중에 next() 삭제할 것임
+
     if(req.user && req.user.isAdmin) {
         next()
     } else {
