@@ -13,7 +13,7 @@ router.put("/paid/:id", updateOrderToPaid);
 // admin routes
 router.use(verifyIsAdmin)
 router.put("/delivered/:id", updateOrderToDelivered);
-router.get("/admin", getOrders);
-router.get("/analysis/:date", getOrderForAnalysis);
+router.get("/admin", getOrders); // http://localhost/api/orders/admin
+router.get("/analysis/:date", getOrderForAnalysis); 
 
 module.exports = router

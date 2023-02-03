@@ -11,7 +11,7 @@ router.get("/get-one/:id", getProductById)
 
 // admin routes:
 router.get("/admin", adminGetProducts)
-router.delete("/admin/:id", adminDeleteProduct)
+router.delete("/admin/:id", adminDeleteProduct)   // http://localhost:5000/api/products/admin/:id
 router.delete("/admin/image/:imagePath/:productId", adminDeleteProductImage)
 router.put("/admin/:id", adminUpdateProduct)
 router.post("/admin/upload", adminUpload)
