@@ -3,7 +3,6 @@ const ObjectId = require("mongodb").ObjectId;
 
 const users = [
   {
-   
     name: 'admin',
     email: 'admin@admin.com',
     password: bcrypt.hashSync('admin@admin.com', 10),
