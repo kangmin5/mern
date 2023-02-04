@@ -1,85 +1,116 @@
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import Spinner from "react-bootstrap/Spinner";
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Spinner from 'react-bootstrap/Spinner';
+
 const LoginPageComponent = ({ loginUserApiRequest }) => {
-  const [validated, setValidated] = useState(false);
+	const [validated, setValidated] = useState(false);
+	const [loginUserResponseState, setLoginUserResponseState] = useState({
+		success: '',
+		error: '',
+		loading: false,
+	});
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const form = event.currentTarget.elements;
+	const navigate = useNavigate();
 
-    const email = form.email.value;
-    const password = form.password.value;
-    const doNotLogout = form.doNotLogout.checked;
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		event.stopPropagation();
+		const form = event.currentTarget.elements;
 
-    if (event.currentTarget.checkValidity() === true && email && password) {
-        loginUserApiRequest(email, password, doNotLogout)
-        .then((res) => console.log(res))
-        .catch((er) => console.log(er.response.data.message ? er.response.data.message : er.response.data));
-    }
+		const email = form.email.value;
+		const password = form.password.value;
+		const doNotLogout = form.doNotLogout.checked;
 
-    setValidated(true);
-  };
-  return (
-    <Container>
-      <Row className="mt-5 justify-content-md-center">
-        <Col md={6}>
-          <h1>Login</h1>
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                name="email"
-                required
-                type="email"
-                placeholder="Enter email"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                name="password"
-                required
-                type="password"
-                placeholder="Password"
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check
-                name="doNotLogout"
-                type="checkbox"
-                label="Do not logout"
-              />
-            </Form.Group>
+		if (event.currentTarget.checkValidity() === true && email && password) {
+			setLoginUserResponseState({ loading: true });
+			loginUserApiRequest(email, password, doNotLogout)
+				.then((res) => {
+					setLoginUserResponseState({
+						success: res.success,
+						loading: false,
+						error: '',
+                    });
+                    if (res.success === "user logged in" && !res.userLoggedIn.isAdmin) {
+                        navigate("/user", {replace: true})
+                    }
+                    else navigate("/admin/orders",{replace:true}) 
+                        
+				})
+				.catch((er) =>
+					setLoginUserResponseState({
+						error: er.response.data.message
+							? er.response.data.message
+							: er.response.data,
+					}),
+				);
+		}
 
-            <Row className="pb-2">
-              <Col>
-                Don't you have an account?
-                <Link to={"/register"}> Register </Link>
-              </Col>
-            </Row>
+		setValidated(true);
+	};
+	return (
+		<Container>
+			<Row className='mt-5 justify-content-md-center'>
+				<Col md={6}>
+					<h1>Login</h1>
+					<Form noValidate validated={validated} onSubmit={handleSubmit}>
+						<Form.Group className='mb-3' controlId='formBasicEmail'>
+							<Form.Label>Email address</Form.Label>
+							<Form.Control
+								name='email'
+								required
+								type='email'
+								placeholder='Enter email'
+							/>
+						</Form.Group>
+						<Form.Group className='mb-3' controlId='formBasicPassword'>
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								name='password'
+								required
+								type='password'
+								placeholder='Password'
+							/>
+						</Form.Group>
+						<Form.Group className='mb-3' controlId='formBasicCheckbox'>
+							<Form.Check name='doNotLogout' type='checkbox' label='Do not logout' />
+						</Form.Group>
 
-            <Button variant="primary" type="submit">
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-              Login
-            </Button>
-            <Alert show={true} variant="danger">
-              Wrong credentials
-            </Alert>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-  );
+						<Row className='pb-2'>
+							<Col>
+								Don't you have an account?
+								<Link to={'/register'}> Register </Link>
+							</Col>
+						</Row>
+
+						<Button variant='primary' type='submit'>
+							{loginUserResponseState && loginUserResponseState.loading === true ? (
+								<Spinner
+									as='span'
+									animation='border'
+									size='sm'
+									role='status'
+									aria-hidden='true'
+								/>
+							) : (
+								''
+							)}
+							Login
+						</Button>
+
+						<Alert
+							show={
+								loginUserResponseState &&
+								loginUserResponseState.error === 'wrong credentials'
+							}
+							variant='danger'>
+							Wrong credentials
+						</Alert>
+					</Form>
+				</Col>
+			</Row>
+		</Container>
+	);
 };
 
 export default LoginPageComponent;
-
