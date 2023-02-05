@@ -10,13 +10,13 @@ module.exports = {
 	 * 추천) 가독성을 위해 80자 이상을 사용하지 않는 것이 좋습니다.
 	 * 추천) 코드 스타일 가이드에서 최대 줄 길이 규칙은 종종 100 또는 120으로 설정됩니다.
 	 */
-	printWidth: 80,
+	printWidth: 100,
 
 	/**
 	 * @template: tabWidth: <int>
 	 * @description: 들여쓰기 너비 수(탭을 사용할 경우 몇칸을 띄워줄지)
 	 */
-	tabWidth: 1,
+	tabWidth: 4,
 
 	/**
 	 * @template: useTabs: <bool>
@@ -30,7 +30,7 @@ module.exports = {
 	 * true: (;)를 추가함
 	 * false: (;)를 지움
 	 */
-	semi: true,
+	semi: false,
 
 	/**
 	 * @template: singleQuote: <bool>
@@ -38,7 +38,7 @@ module.exports = {
 	 * true: 홀따옴표로 사용
 	 * false: 큰따옴표로 사용
 	 */
-	singleQuote: true,
+	singleQuote: false,
 
 	/**
 	 * @template: jsxSingleQuote: <bool>
